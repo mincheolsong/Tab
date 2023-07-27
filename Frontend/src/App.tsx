@@ -29,8 +29,10 @@ function App() {
         <Routes>
           <Route path="/" element={<WebMain />}></Route>
           <Route path="/mobile/" element={<MobileMain />}></Route>
-          <Route path="/kiosk/info/" element={<BusInfomationPage />}></Route>
-          <Route path="/kiosk/Auth/" element={<AuthPage />}></Route>
+          <Route path='/kiosk/'>
+            <Route path="info/" element={<BusInfomationPage />}></Route>
+            <Route path="Auth/" element={<AuthPage />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
