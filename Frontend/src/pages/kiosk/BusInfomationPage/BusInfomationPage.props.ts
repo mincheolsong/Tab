@@ -1,1 +1,3 @@
-export interface BusInfomationPageProps {}
+export interface BusInfomationPageProps {
+  
+}

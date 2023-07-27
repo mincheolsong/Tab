@@ -1,8 +1,8 @@
 .Header{
-  height: 400px;
+  height: 390px;
   background-color: #208EF4;
   padding: 10px;
-  border-end-end-radius: 30px;
+  border-radius: 0 0 40px 40px;
 }
 
 .busstop-title {

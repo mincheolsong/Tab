@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { HeaderProps } from ".";
-import './style.css'
+import './Header.css'
 
 export const Header: FC<HeaderProps> = (props) => {
 
@@ -9,7 +9,6 @@ export const Header: FC<HeaderProps> = (props) => {
   const min = time.getMinutes();
 
   const busStop = "우리집 앞"
-
   const logoURL = "../../src/assets/image/대구광역시_logo.png";
   return (
     <div {...props}>
@@ -25,7 +24,13 @@ export const Header: FC<HeaderProps> = (props) => {
             </span>
           </div>
         </div>
-        <div className="busstop-title">이곳은 <span className="busstop-name">{busStop}</span> 정류장 입니다</div>
+        <div className="busstop-title">
+          이곳은{" "}
+          <span className="busstop-name">
+            {busStop}
+          </span>{" "}
+          정류장 입니다
+        </div>
       </div>
     </div>
   );
