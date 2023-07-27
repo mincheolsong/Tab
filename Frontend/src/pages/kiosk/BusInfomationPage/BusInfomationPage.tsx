@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import { BusInfomationPageProps } from '.';
 import { Header } from '../../../components/kiosk/Header';
+import { ComingSoonBusList } from '../../../components/kiosk/ComingSoonBusList';
 import { ArrivalBusList } from '../../../components/kiosk/ArrivalBusList';
+import { LivingInformationBox } from '../../../components/kiosk/LivingInfomationBox';
 import { BottomButtonBox } from '../../../components/kiosk/BottomButtonBox';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
@@ -52,7 +54,9 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
   return (
     <div {...props}>
       <Header />
+      <ComingSoonBusList/>
       <ArrivalBusList data={data} />
+      <LivingInformationBox/>
       <BottomButtonBox />
     </div>
   );

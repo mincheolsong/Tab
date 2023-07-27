@@ -16,17 +16,14 @@ export const BottomButtonBox: FC<BottomButtonBoxProps> = (props) => {
         element.wheelchair = true;
         console.log(element)
       }
-
       return element;
     }))
   }
-  
   return <div {...props}>
   
 
-
   <div>
-    <div className="setbtn" style={{backgroundColor:'#208EF4', display:"flex", flexDirection: "column"}}>
+    <div className="setbtn" style={{backgroundColor:'#208EF4', display:"flex", flexDirection: "column", borderRadius:'40px 40px 0 0'}}>
     <div style={{justifyContent:"center", display:"flex" , height:'180px', marginBottom:'50px'}}>
     <h1 style={{fontSize:'80px',color:'white'}} >교통약자 탑승버튼</h1>
     <img style={{height:'160px',width:'180',margin:'20px'}  } src="/src/assets/wheelchair.png" alt="실패"/>
@@ -35,17 +32,13 @@ export const BottomButtonBox: FC<BottomButtonBoxProps> = (props) => {
     <div style={{display: "flex", justifyContent: "space-around"}}>
   {
   
-    bus.map((element: object, index: Number) => {
+    bus.map((element: object, index: number) => {
       return <Btn props={{element, onBusClick}}/>
     })
 
   }
-    
-    
     </div>
-
     </div>
-  
   </div>
   
   
@@ -55,7 +48,7 @@ export const BottomButtonBox: FC<BottomButtonBoxProps> = (props) => {
 
 function Btn({props: {element, onBusClick}}){
     return(
-    <button style={{fontSize: '55px', backgroundColor : !element.redLight ? "white" : "red"}} onClick={()=> {
+    <button className="bottom-button" style={{fontSize: '55px', backgroundColor : !element.redLight ? "white" : "red"}} onClick={()=> {
       onBusClick(element.test);
       
       

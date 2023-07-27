@@ -1,0 +1,9 @@
+.lv-info-container{
+  width: 2100px;
+  height: 500px;
+  border-radius: 30px;
+  background-color: white;
+  margin: 20px;
+  display: flex;
+
+}

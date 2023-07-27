@@ -1,1 +1,1 @@
-export interface WebMainProps {};
+export interface WebMainProps {}
