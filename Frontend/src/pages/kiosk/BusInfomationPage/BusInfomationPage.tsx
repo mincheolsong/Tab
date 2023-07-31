@@ -8,6 +8,18 @@ import { BottomButtonBox } from '../../../components/kiosk/BottomButtonBox';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 
+export interface BusData {
+  remainingStops: number;
+  eta: number;
+  routeid: string;
+  busNo: string;
+  routeType: string;
+  vehicleType: string;
+  stationOrder: number;
+  vehicleNo: string;
+  stationId: string;
+  stationName: string;
+}
 
 export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
 	const options: object = {
@@ -21,7 +33,8 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
       nodeId: "DJB8001793",
     },
   };
-	const [data, setData] = useState<object[]>([]);
+
+	const [data, setData] = useState<BusData[]>([]);
 
   function useInterval(callback: () => void, delay: number | null) {
     const savedCallback = useRef<typeof callback>(callback);
@@ -43,13 +56,14 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
   }
 
   function updateData() {
-    axios(options).then((response) => {
-      setData(response.data.response.body.items.item);
-      console.log(data);
-    });
+    axios(options)
+      .then((response) => {
+        setData(response.data.response.body.items.item);
+        console.log(data);
+      });
   }
 
-	useInterval(updateData, 10000)
+	useInterval(updateData, 30000)
 
   return (
     <div {...props}>
