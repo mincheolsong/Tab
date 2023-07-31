@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import { WeatherBoxProps } from '.';
+import { FC } from "react";
+import { WeatherBoxProps } from ".";
 import React, { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { BsFillCloudLightningFill, BsFill0CircleFill } from "react-icons/bs";
 
-import './WeatherBox.css'
+import "./WeatherBox.css";
 
 interface WeatherData {
   name: string;
@@ -14,16 +14,16 @@ interface WeatherData {
   };
 }
 
-
 export const WeatherBox: FC<WeatherBoxProps> = (props) => {
-	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const busStop = "정류장 이름";
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
         const apiKey = "40da27bfa864f510e9a34a1c6a8423fb";
-				const lat = 33
-				const lon = -94
+        const lat = 33;
+        const lon = -94;
 
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
 
@@ -39,14 +39,33 @@ export const WeatherBox: FC<WeatherBoxProps> = (props) => {
   }, []);
 
   if (!weatherData) {
-    return <div>Loading...</div>;
+    return (
+      <div {...props} className="wheather-box">
+        <div>현재 {busStop} 날씨</div>
+        <div>
+          <div>아이콘</div>
+          <div>
+            <div>온도</div>
+            <div>습도</div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
-	return (
+  return (
     <div {...props} className="wheather-box">
+      <div>현재 {busStop} 날씨</div>
+      <div>
+        <div>아이콘</div>
+        <div>
+          <div>온도</div>
+          <div>습도</div>
+        </div>
+      </div>
       <div>
         <div>weatherData</div>
-        <BsFill0CircleFill></BsFill0CircleFill>
+        <BsFill0CircleFill />
         <BsFillCloudLightningFill size="28" />
         <h1>Weather in {weatherData.name}</h1>
         <p>Temperature: {weatherData.main.temp} °C</p>

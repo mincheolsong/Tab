@@ -7,9 +7,10 @@ import { LivingInformationBox } from '../../../components/kiosk/LivingInfomation
 import { BottomButtonBox } from '../../../components/kiosk/BottomButtonBox';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import { delay } from '@reduxjs/toolkit/dist/utils';
 
 export interface BusData {
-  remainingStops: number;
+  remainingStops: number; 
   eta: number;
   routeid: string;
   busNo: string;
@@ -22,17 +23,20 @@ export interface BusData {
 }
 
 export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
+  const citycode = 37050;
+  const busStopId = 'GMB383';
 	const options: object = {
-    url: "http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList",
+    url: "http://192.168.100.119/api/stops/37050/GMB383",
+    // url: `http://192.168.100.119/api/stops/${citycode}/${busStopId}`,
     method: "GET",
-    params: {
-      serviceKey:
-        "NEAq0nPyhWUnw2Doosd3TUsktCZwBNF3oYydd8r/ow6rBPHHZvs2FwqsW7X4nsepDwS5+ShwmmI/qeorH6py6A==",
-      _type: "json",
-      cityCode: 25,
-      nodeId: "DJB8001793",
+    timeout: 10000,
+    headers: {
+      "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+      "Content-Type": "application/json", // 원하는 Content-Type을 설정할 수 있습니다.
+      // 다른 헤더도 필요에 따라 추가할 수 있습니다.
     },
   };
+
 
 	const [data, setData] = useState<BusData[]>([]);
 
@@ -49,6 +53,7 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
       };
 
       if (delay !== null) {
+        tick();
         const interval = setInterval(tick, delay);
         return () => clearInterval(interval);
       }
@@ -58,9 +63,15 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
   function updateData() {
     axios(options)
       .then((response) => {
-        setData(response.data.response.body.items.item);
-        console.log(data);
-      });
+        setTimeout(5000);
+        console.log(response);
+        
+        // setData(response);
+      })
+      .catch(err=>{
+        console.log(err);
+        
+      })
   }
 
 	useInterval(updateData, 30000)
