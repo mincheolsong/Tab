@@ -1,7 +1,18 @@
-import { FC } from 'react';
+import { FC } from "react";
 import { QRcodeBoxProps } from ".";
-import './QRcodeBox.css'
+import { useState } from "react";
+import { QRCodeSVG  } from "qrcode.react";
+import "./QRcodeBox.css";
 
 export const QRcodeBox: FC<QRcodeBoxProps> = (props) => {
-  return <div {...props} className='qrcode-box'>모바일 QR코드</div>;
+  const [address, setAdress] = useState("naver.com");
+  setAdress;
+  return (
+    <div {...props} className="qrcode-box">
+      <div className="qrcode-text">모바일 QR코드</div>
+      <div className="qrcode-img">
+        <QRCodeSVG className="qrcode-img" value={address} size={400} level="Q" />,
+      </div>
+    </div>
+  );
 };

@@ -39,6 +39,7 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
   let busstop = useSelector((state) => {
     return state;
   });
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -72,15 +73,14 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
   }
 
   const updateBusData = async () => {
-    try {
-      const citycode: number = 37050;
-      const busStopId: string = "GMB383";
+    const citycode: number = 37050;
+    const busStopId: string = "GMB383";
+    const url = `http://127.0.0.1/api/stops/${citycode}/${busStopId}`;
 
-      const url = `http://127.0.0.1/api/stops/${citycode}/${busStopId}`;
-
-      const response: ResponseData = await axios.get(url, {
-        timeout: 10000,
-      });
+    axios.get(url, {
+      timeout: 10000,
+    })
+    .then(response=>{
       console.log(response.data);
       if (response.data.code == "500") {
         console.log("500 Error: " + response.data.msg);
@@ -92,10 +92,36 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
           })
         );
       }
-    } catch (error) {
+    })
+    .catch(error =>{
       console.error("Error fetching buslist data:", error);
-    }
+    })
   };
+  // const updateBusData = async () => {
+  //   try {
+  //     const citycode: number = 37050;
+  //     const busStopId: string = "GMB383";
+
+  //     const url = `http://127.0.0.1/api/stops/${citycode}/${busStopId}`;
+
+  //     const response: ResponseData = await axios.get(url, {
+  //       timeout: 10000,
+  //     });
+  //     console.log(response.data);
+  //     if (response.data.code == "500") {
+  //       console.log("500 Error: " + response.data.msg);
+  //     } else if (response.data.code == "200") {
+  //       // 도착예정시간 순으로 정렬해서 저장
+  //       setBusData(
+  //         response.data.data.sort((a: BusData, b: BusData) => {
+  //           return a.eta - b.eta;
+  //         })
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching buslist data:", error);
+  //   }
+  // };
   // 30초마다
   useInterval(updateBusData, 30000);
 
