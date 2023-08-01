@@ -4,13 +4,15 @@ import { QRcodeBox } from "./QRcodeBox";
 import { DustBox } from "./DustBox";
 import { WeatherBox } from "./WeatherBox";
 
-import './LivingInfomationBox.css'
+import "./LivingInfomationBox.css";
 
 export const LivingInformationBox: FC<LivingInformationBoxProps> = (props) => {
   return (
     <div {...props} className="lv-info-container">
-      <WeatherBox />
-      <DustBox />
+      <div className="weather-dust-box">
+        {/* <WeatherBox />
+        <DustBox /> */}
+      </div>
       <QRcodeBox />
     </div>
   );
