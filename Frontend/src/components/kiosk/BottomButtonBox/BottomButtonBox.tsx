@@ -26,7 +26,7 @@ export const BottomButtonBox: FC<BottomButtonBoxProps> = (props) => {
     <div className="setbtn" style={{backgroundColor:'#208EF4', display:"flex", flexDirection: "column", borderRadius:'40px 40px 0 0'}}>
     <div style={{justifyContent:"center", display:"flex" , height:'180px', marginBottom:'50px'}}>
     <h1 style={{fontSize:'80px',color:'white'}} >교통약자 탑승버튼</h1>
-    <img style={{height:'160px',width:'180',margin:'20px'}  } src="/src/assets/wheelchair.png" alt="실패"/>
+    <img style={{height:'160px',width:'180',margin:'20px'}  } src="/src/assets/image/wheelchair_big.png" alt="실패"/>
     </div>
     
     <div style={{display: "flex", justifyContent: "space-around"}}>
