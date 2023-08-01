@@ -1,9 +1,16 @@
-import { FC, useState } from "react";
-import { ArrivalBusListProps } from ".";
+import { FC } from "react";
 import { BusData } from "../../../pages/kiosk/BusInfomationPage";
 import './ArrivalBusList.css'
 
-const ArrivalBusListItem = ({item}) => {
+interface ArrivalBusListProps {
+  data: BusData[];
+}
+
+interface ArrivalBusListItemProps {
+  item: BusData;
+}
+
+const ArrivalBusListItem: FC<ArrivalBusListItemProps> = ({item}) => {
   return (
     <div className="bus-item-container">
       <div className="bus-item-top">
@@ -15,10 +22,10 @@ const ArrivalBusListItem = ({item}) => {
         </div>
         <div className="bus-eta bg-white round-10">
           <div>도착예정시간</div>
-          <div>{Math.round(item.arrtime / 60)} 분후 도착</div>
+          <div>{Math.round(item?.eta / 60)} 분후 도착</div>
         </div>
         <div className="bus-routeinfo bg-white round-10">
-          <div>{item.arrprevstationcnt} 정거장 남음</div>
+          <div>{item?.remainingStops} 정거장 남음</div>
         </div>
         <div className="tap-button bg-white round-10">
           <button>탑승</button>
@@ -27,25 +34,26 @@ const ArrivalBusListItem = ({item}) => {
       <div className="guide-message">
         <span>대충 이번역에 섭니다.</span>
       </div>
-      <div>nodeid : {item.nodeid} </div>
-      <div>nodenm : {item.nodenm}</div>
-      <div>routeid : {item.routeid}</div>
-      <div>routeno : {item.routeno}</div>
-      <div>routetp : {item.routetp}</div>
-      <div>vehicletp : {item.vehicletp}</div>
+      <div>busNo : {item.busNo} </div>
+      <div>routeId : {item.routeId}</div>
+      <div>routeType : {item.routeType}</div>
+      <div>vehicleType : {item.vehicleType}</div>
+      <div>vehicleNo : {item.vehicleNo}</div>
+      <div>stationOrder : {item.stationOrder}</div>
+      <div>stationName : {item.stationName}</div>
+      <div>stationId : {item.stationId}</div>
     </div>
   );
 };
 
 export const ArrivalBusList: FC<ArrivalBusListProps> = (props) => {
-
+  console.log(props);
+  
   return (
-    <div {...props} className="bus-list-container">
+    <div className="bus-list-container">
       ArrivalBusList
-      {props.data?.map((item: object, index: number) => {
-        return (
-          <ArrivalBusListItem key={index} item={item}/>
-        );
+      {props.data.map((item: BusData, index : number) => {
+        return <ArrivalBusListItem item={item} key={index}/>;
       })}
     </div>
   );

@@ -10,8 +10,8 @@ export const LivingInformationBox: FC<LivingInformationBoxProps> = (props) => {
   return (
     <div {...props} className="lv-info-container">
       <div className="weather-dust-box">
-        <WeatherBox />
-        <DustBox />
+        {/* <WeatherBox />
+        <DustBox /> */}
       </div>
       <QRcodeBox />
     </div>
