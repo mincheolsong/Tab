@@ -3,3 +3,8 @@
   max-height: 3840px;
   /* padding: 1rem; */
 }
+
+@font-face{
+  font-family: "Inter" ;
+  src: url("./font/Inter-VariableFont_slnt,wght.ttf");
+}

@@ -22,16 +22,11 @@ export interface BusData {
 }
 
 export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
+  const citycode = 37050
+  const busStopId = 'GMB383'
 	const options: object = {
-    url: "http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList",
+    url: `http://192.168.100.119/api/stops/${citycode}/${busStopId}`,
     method: "GET",
-    params: {
-      serviceKey:
-        "NEAq0nPyhWUnw2Doosd3TUsktCZwBNF3oYydd8r/ow6rBPHHZvs2FwqsW7X4nsepDwS5+ShwmmI/qeorH6py6A==",
-      _type: "json",
-      cityCode: 25,
-      nodeId: "DJB8001793",
-    },
   };
 
 	const [data, setData] = useState<BusData[]>([]);
