@@ -1,25 +1,12 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import kioskSlice from "./slice/kiosk-slice";
+import webSlice from "./slice/web-slice";
 
-let busStop = createSlice({
-  name: "busStop",
-  initialState: "우리집",
-  reducers : {
-    changehome(){
-      return '마당있는집'
-    }
-  }
-});
-
-export let {changehome} = busStop.actions
-
-let busNum = createSlice({
-  name: "df",
-  initialState: ["1", "2", "3"],
-});
-
-export default configureStore({
+const store = configureStore({
   reducer: {
-    busStop: busStop.reducer,
-    busNum : busNum.reducer
+    kiosk: kioskSlice.reducer,
+    web: webSlice.reducer,
   },
 });
+
+export default store;
