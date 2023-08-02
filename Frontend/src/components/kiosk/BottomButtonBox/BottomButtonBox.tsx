@@ -3,6 +3,7 @@ import { BottomButtonBoxProps } from ".";
 import './BottomButtonBox.css'
 import { useState } from 'react';
 
+
 export const BottomButtonBox: FC<BottomButtonBoxProps> = (props) => {
   const [bus,setBus] = useState<Array<object>>([{test: 123 , redLight:false ,wheelchair:false}, {test:'급행1',redLight:false, wheelchair:false}, {test:305,redLight:false,wheelchair:false}]);
   
@@ -33,7 +34,7 @@ export const BottomButtonBox: FC<BottomButtonBoxProps> = (props) => {
   {
   
     bus.map((element: object, index: number) => {
-      return <Btn props={{element, onBusClick}}/>
+      return <Btn props={{ element, onBusClick }} key={index} />;
     })
 
   }

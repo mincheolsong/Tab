@@ -1,17 +1,18 @@
-import { FC } from 'react';
-import { BusInfomationPageProps } from '.';
-import { Header } from '../../../components/kiosk/Header';
-import { ComingSoonBusList } from '../../../components/kiosk/ComingSoonBusList';
-import { ArrivalBusList } from '../../../components/kiosk/ArrivalBusList';
-import { LivingInformationBox } from '../../../components/kiosk/LivingInfomationBox';
-import { BottomButtonBox } from '../../../components/kiosk/BottomButtonBox';
-import axios, { AxiosResponse } from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { FC } from "react";
+import { BusInfomationPageProps } from ".";
+import { Header } from "../../../components/kiosk/Header";
+import { ComingSoonBusList } from "../../../components/kiosk/ComingSoonBusList";
+import { ArrivalBusList } from "../../../components/kiosk/ArrivalBusList";
+import { LivingInformationBox } from "../../../components/kiosk/LivingInfomationBox";
+import { BottomButtonBox } from "../../../components/kiosk/BottomButtonBox";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 export type BusData = {
   busNo: string;
   eta: number;
-  remainingStops: number; 
+  remainingStops: number;
   routeId: string;
   routeType: string;
   vehicleNo: string;
@@ -19,19 +20,28 @@ export type BusData = {
   stationId: string;
   stationName: string;
   stationOrder: number;
-}
-
-type ResponseData = {
-  code : string,
-  data : BusData[],
-  msg : string
-}
+};
 
 
 export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
+  const [busDatas, setBusData] = useState<BusData[]>([]);
+  const [comingSoonBusList, setComingSoonBusList] = useState<BusData[]>([]);
 
+  let busstop = useSelector((state) => {
+    return state;
+  });
 
-	const [busDatas, setBusData] = useState<BusData[]>([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // 12분 이내 도착 예정인 버스 리스트
+    setComingSoonBusList(
+      busDatas.filter((el: BusData) => {
+        // 임시로 120분
+        return el.eta <= 7200;
+      })
+    );
+  }, [busDatas]);
 
   function useInterval(callback: () => void, delay: number | null) {
     const savedCallback = useRef<typeof callback>(callback);
@@ -53,45 +63,40 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
     }, [delay]);
   }
 
-  
   const updateBusData = async () => {
+    const citycode: number = 37050;
+    const busStopId: string = "GMB383";
+    const url = `http://127.0.0.1/api/stops/${citycode}/${busStopId}`;
 
-    try {
-      const citycode: number = 37050;
-      const busStopId: string = "GMB383";
-
-      const url = `http://127.0.0.1/api/stops/${citycode}/${busStopId}`;
-
-      const response: object = await axios.get(url, {
-        timeout: 10000,
-      });
+    axios.get(url, {
+      timeout: 10000,
+    })
+    .then(response=>{
       console.log(response.data);
-      setBusData(response.data.data);
-    } catch (error) {
+      if (response.data.code == "500") {
+        console.log("500 Error: " + response.data.msg);
+      } else if (response.data.code == "200") {
+        // 도착예정시간 순으로 정렬해서 저장
+        setBusData(
+          response.data.data.sort((a: BusData, b: BusData) => {
+            return a.eta - b.eta;
+          })
+        );
+      }
+    })
+    .catch(error =>{
       console.error("Error fetching buslist data:", error);
-    }
+    })
   };
-
-  // function updateData() {
-  //   axios(options)
-  //     .then((response) => {
-  //       console.log(data);
-  //       setData(response.data.data);
-  //     })
-  //     .catch(err=>{
-  //       console.log(err);
-  //     })
-  // }
-
-
-	useInterval(updateBusData, 30000);
-	// useInterval(updateData, 30000);
+  
+  // 30초마다
+  useInterval(updateBusData, 30000);
 
   return (
     <div {...props}>
       <Header />
-      <ComingSoonBusList />
-      <ArrivalBusList data={busDatas} />
+      <ComingSoonBusList data={comingSoonBusList ? comingSoonBusList : []} />
+      <ArrivalBusList data={busDatas ? busDatas : []} />
       <LivingInformationBox />
       <BottomButtonBox />
     </div>

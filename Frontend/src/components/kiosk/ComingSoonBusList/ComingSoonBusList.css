@@ -29,7 +29,11 @@
 .comingsoon-bus-type{
   width: 100px;
   height: 100px;
-  background-color: blue;
+}
+
+.comingsoon-bus-route-icon{
+  width: 100px;
+  height: 100px;
 }
 
 .comingsoon-bus-no{
