@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { WeatherBoxProps } from ".";
-import React, { useState, useEffect, useRef } from "react";
-import axios, { AxiosResponse } from "axios";
-import { BsFillCloudLightningFill } from "react-icons/bs";
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
 import "./WeatherBox.css";
 
@@ -13,11 +12,11 @@ import "./WeatherBox.css";
 interface WeatherData {
   name: string;
   weather: {
-    id: number,
-    main: string,
-    desciption: string,
-    icon: number,
-  },
+    id: number;
+    main: string;
+    description: string;
+    icon: string;
+  }[];
   main: {
     temp: number;
     temp_min: number;
@@ -26,6 +25,52 @@ interface WeatherData {
     humidity: number;
   };
 }
+
+const tempdata: object = {
+  coord: {
+    lon: 128.34,
+    lat: 36.12,
+  },
+  weather: [{
+    id: 804,
+    main: "Clouds",
+    description: "overcast clouds",
+    icon: "04n",
+  }],
+
+  base: "stations",
+  main: {
+    temp: 298.9,
+    feels_like: 299.59,
+    temp_min: 298.9,
+    temp_max: 298.9,
+    pressure: 1010,
+    humidity: 79,
+    sea_level: 1010,
+    grnd_level: 1003,
+  },
+  visibility: 10000,
+  wind: {
+    speed: 1.03,
+    deg: 191,
+    gust: 1.19,
+  },
+  clouds: {
+    all: 99,
+  },
+  dt: 1690905865,
+  sys: {
+    type: 1,
+    id: 5506,
+    country: "KR",
+    sunrise: 1690922028,
+    sunset: 1690972319,
+  },
+  timezone: 32400,
+  id: 1842225,
+  name: "Gumi",
+  cod: 200,
+};
 
 // 일정시간 간격으로 함수 실행
 function useInterval(callback: () => void, delay: number | null) {
@@ -36,8 +81,7 @@ function useInterval(callback: () => void, delay: number | null) {
   }, [callback]); // callback이 바뀔 때마다 ref를 업데이트 해준다.
 
   useEffect(() => {
-    
-    if (delay !== null){
+    if (delay !== null) {
       const tick = () => {
         savedCallback.current();
       }; // tick이 실행되면 callback 함수를 실행시킨다.
@@ -45,77 +89,60 @@ function useInterval(callback: () => void, delay: number | null) {
       tick();
       const interval = setInterval(tick, delay); // delay에 맞추어 interval을 새로 실행시킨다.
       return () => clearInterval(interval); // unmount될 때 clearInterval을 해준다.
-    } 
+    }
   }, [delay]); // delay가 바뀔 때마다 새로 실행된다.
 }
 
 export const WeatherBox: FC<WeatherBoxProps> = (props) => {
-
   const busStop = "정류장 이름";
-
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   // toomany request 주의!
-  const fetchWeatherData = async() => {
-    try {
-      const apiKey = "40da27bfa864f510e9a34a1c6a8423fb";
-      const lat = 33;
-      const lon = -94;
+  const fetchWeatherData = async () => {
+    const apiKey = "40da27bfa864f510e9a34a1c6a8423fb";
+    const lat = 36.12;
+    const lon = 128.34;
 
-      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&lang=kr`;
 
-      const response: AxiosResponse<WeatherData> = await axios.get(url);
-      setWeatherData(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching weather data:", error);
-    }
-  }
+    axios
+      .get(url)
+      .then((response) => {
+        setWeatherData(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching weather data:", error);
+      });
+  };
 
-  const doSomething = () : void => {
-    console.log("do something!!");
+  const tempFetchWeatherData = (): void => {
+    setWeatherData(tempdata);
   };
 
   // useInterval(fetchWeatherData, 600000);
-  // useInterval(doSomething, 600000);
-
-  if (!weatherData) {
-    return (
-      <div {...props} className="wheather-box">
-        <div>현재 {busStop} 날씨</div>
-        <div>
-          <img
-            src={`https://openweathermap.org/img/wn/10d@2x.png`}
-            alt={weatherData?.weather.desciption}
-          />
-          <div>
-            <div>온도</div>
-            <div>습도</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  useInterval(tempFetchWeatherData, 600000);
 
   return (
-    <div {...props} className="wheather-box">
-      <h2>현재 {weatherData.name} 날씨</h2>
-      <div>
-        <div>
-          <BsFillCloudLightningFill size="100" />
-        </div>
-        <div>
-          <div>{weatherData.weather.id} K</div>
-          <img src={`https://openweathermap.org/img/wn/10d@${weatherData.weather.icon}.png`} alt="" />
-          <img src={`https://openweathermap.org/img/wn/10d@10d.png`} alt="" />
-          <div>{weatherData.weather.icon} K</div>
-          <div>{weatherData.weather.main} K</div>
-          <div>{weatherData.weather.desciption} K</div>
+    <div {...props} className="weather-box">
+      <div className="info-title">오늘의 날씨</div>
+      {weatherData ? (
+        <div className="weather-box-detail">
+          <img
+            src={`https://openweathermap.org/img/wn/${weatherData?.weather[0].icon}@4x.png`}
+            alt={`${weatherData?.weather[0].description}`+'_icon'}
+            className="weather-icon"
+          />
+          <div className="weather-textbox">
+            <div>{weatherData.weather[0].main}</div>
 
-          <div>{weatherData.main.temp} K</div>
-          <div>{weatherData.main.humidity} %</div>
+            <div>{(weatherData.main.temp - 273.15).toFixed(1)} °C</div>
+            <div>{weatherData.main.humidity} %</div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div> 로딩 중 ...</div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { BusData } from "../../../pages/kiosk/BusInfomationPage";
 
-export interface ComingSoonBusListProps {
-  data: BusData[];
+export interface ArrivalBusListItemProps {
+  item: BusData;
 }
