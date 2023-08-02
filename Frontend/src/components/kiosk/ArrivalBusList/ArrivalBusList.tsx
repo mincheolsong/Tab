@@ -24,7 +24,6 @@ export const ArrivalBusList: FC<ArrivalBusListProps> = (props) => {
   useEffect(() => {
     // 페이지 지정
     setPage(paginateArray(props.data, 4));
-
   }, [props.data]);
 
   return (
@@ -37,7 +36,8 @@ export const ArrivalBusList: FC<ArrivalBusListProps> = (props) => {
         height={1900}
         interval={5000}
         navButtonsAlwaysVisible={true}
-      >
+        index={1}
+      > 
         {pages.map((page) => {
           return page.map((item: BusData, index: number) => {
             return <ArrivalBusListItem item={item} key={index} />;

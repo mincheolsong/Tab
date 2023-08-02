@@ -7,7 +7,6 @@ import { LivingInformationBox } from "../../../components/kiosk/LivingInfomation
 import { BottomButtonBox } from "../../../components/kiosk/BottomButtonBox";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
 export type BusData = {
   busNo: string;
@@ -27,18 +26,17 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
   const [busDatas, setBusData] = useState<BusData[]>([]);
   const [comingSoonBusList, setComingSoonBusList] = useState<BusData[]>([]);
 
-  let busstop = useSelector((state) => {
-    return state;
-  });
 
-  const dispatch = useDispatch();
+  const logBusStop = ()=>{
+    // console.log(busStop, dispatch)
+  }
 
   useEffect(() => {
     // 12분 이내 도착 예정인 버스 리스트
     setComingSoonBusList(
-      busDatas.filter((el: BusData) => {
+      busDatas.slice(0,5).filter((el: BusData) => {
         // 임시로 120분
-        return el.eta <= 7200;
+        return el.eta <= 900;
       })
     );
   }, [busDatas]);
@@ -95,6 +93,7 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
   return (
     <div {...props}>
       <Header />
+      <button onClick={logBusStop}></button>
       <ComingSoonBusList data={comingSoonBusList ? comingSoonBusList : []} />
       <ArrivalBusList data={busDatas ? busDatas : []} />
       <LivingInformationBox />

@@ -26,50 +26,23 @@ interface WeatherData {
   };
 }
 
-const tempdata: object = {
-  coord: {
-    lon: 128.34,
-    lat: 36.12,
-  },
-  weather: [{
-    id: 804,
-    main: "Clouds",
-    description: "overcast clouds",
-    icon: "04n",
-  }],
-
-  base: "stations",
+const tempdata: WeatherData = {
+  weather: [
+    {
+      id: 804,
+      main: "Clouds",
+      description: "overcast clouds",
+      icon: "04n",
+    },
+  ],
   main: {
     temp: 298.9,
     feels_like: 299.59,
     temp_min: 298.9,
     temp_max: 298.9,
-    pressure: 1010,
     humidity: 79,
-    sea_level: 1010,
-    grnd_level: 1003,
   },
-  visibility: 10000,
-  wind: {
-    speed: 1.03,
-    deg: 191,
-    gust: 1.19,
-  },
-  clouds: {
-    all: 99,
-  },
-  dt: 1690905865,
-  sys: {
-    type: 1,
-    id: 5506,
-    country: "KR",
-    sunrise: 1690922028,
-    sunset: 1690972319,
-  },
-  timezone: 32400,
-  id: 1842225,
   name: "Gumi",
-  cod: 200,
 };
 
 // 일정시간 간격으로 함수 실행
@@ -94,7 +67,6 @@ function useInterval(callback: () => void, delay: number | null) {
 }
 
 export const WeatherBox: FC<WeatherBoxProps> = (props) => {
-  const busStop = "정류장 이름";
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
   // toomany request 주의!
@@ -122,6 +94,7 @@ export const WeatherBox: FC<WeatherBoxProps> = (props) => {
 
   // useInterval(fetchWeatherData, 600000);
   useInterval(tempFetchWeatherData, 600000);
+  console.log(fetchWeatherData);
 
   return (
     <div {...props} className="weather-box">
