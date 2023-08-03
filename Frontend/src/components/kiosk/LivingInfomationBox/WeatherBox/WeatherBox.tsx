@@ -94,7 +94,7 @@ export const WeatherBox: FC<WeatherBoxProps> = (props) => {
 
   // useInterval(fetchWeatherData, 600000);
   useInterval(tempFetchWeatherData, 600000);
-  console.log(fetchWeatherData);
+  // console.log(fetchWeatherData);
 
   return (
     <div {...props} className="weather-box">

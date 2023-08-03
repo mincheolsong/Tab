@@ -114,7 +114,7 @@ export const DustBox: FC<DustBoxProps> = (props) => {
 
   // useInterval(fetchDustInfo, 30 * 60 * 1000);
   useInterval(tempFetchDustInfo, 30 * 60 * 1000);
-  console.log(fetchDustInfo);
+  // console.log(fetchDustInfo);
 
   return (
     <div {...props} className="dust-box">
