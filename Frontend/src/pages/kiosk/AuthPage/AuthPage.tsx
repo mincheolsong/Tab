@@ -11,7 +11,6 @@ import KeyboardWrapper from "./keyboard/keyBoard";
 import { busAPI } from "@/store/api/api";
 import { Select, MenuItem } from "@mui/material";
 
-
 export const AuthPage: FC<AuthPageProps> = (props) => {
   type BusStopData = {
     id: string;
@@ -200,7 +199,7 @@ export const AuthPage: FC<AuthPageProps> = (props) => {
 
   const onChangeInputBusId = (event: ChangeEvent<HTMLInputElement>): void => {
     const input = event.target.value;
-    setBusStopId(input);
+    setBusStopId(input.trim());
   };
 
   const dispatch = useDispatch();
@@ -233,19 +232,26 @@ export const AuthPage: FC<AuthPageProps> = (props) => {
         return;
       }
       busAPI
-        .get(`${selectedCity.도시코드}/${busStopId}`, { timeout: 60000 })
+        .get(`${selectedCity.도시코드}/${busStopId}`, { timeout: 100000 })
         .then((response) => {
           console.log(response.data);
-          dispatch(
-            checkMaster({
-              busStopId,
-              cityCode: selectedCity.도시코드,
-              stationLat: searchStation.latitude,
-              stationLon: searchStation.longtitude,
-              stationName: searchStation.stationName,
-            })
-          );
-          navigate(`/kiosk/info/${busStopId}`);
+          if (response.data.code == 200 || response.data.code == 202) {
+            dispatch(
+              checkMaster({
+                busStopId,
+                cityCode: selectedCity.도시코드,
+                stationLat: searchStation.latitude,
+                stationLon: searchStation.longtitude,
+                stationName: searchStation.stationName,
+              })
+            );
+            navigate(`/kiosk/info/${busStopId}`);
+          } else {
+            alert(
+              "정류장에 대한 노선정보를 받아오는데 실패하였습니다. 재시도 바랍니다."
+            );
+            return;
+          }
         });
     } else {
       alert("마스터키가 틀렸습니다. 다시 입력 해주세요.");
@@ -273,8 +279,8 @@ export const AuthPage: FC<AuthPageProps> = (props) => {
   }, [busStopList]);
 
   useEffect(() => {
-    updateBusStopList(selectedCity.도시명)
-  },[]);
+    updateBusStopList(selectedCity.도시명);
+  }, []);
 
   return (
     <div className="mainbox" {...props}>
