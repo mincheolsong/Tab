@@ -155,6 +155,7 @@ $ npm run dev
 ### 정류장 키오스크 시연
 
 [![TAB](http://img.youtube.com/vi/Uo2cmRsgWEA/0.jpg)](https://youtu.be/Uo2cmRsgWEA)
+[![TAB](http://img.youtube.com/vi/q7RS_bN0gbc/0.jpg)](https://youtu.be/q7RS_bN0gbc)
 
 ### 웹 서비스 시연
 [![TAB](http://img.youtube.com/vi/W16VZ3EgW0g/0.jpg)](https://youtu.be/W16VZ3EgW0g)
