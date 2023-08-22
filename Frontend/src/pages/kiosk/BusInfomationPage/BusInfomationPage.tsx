@@ -120,7 +120,7 @@ export const BusInfomationPage: FC<BusInfomationPageProps> = (props) => {
                 .post("regist", {
                   count: el.passengerNumber,
                   routeNo: el.routeId,
-                  stationId: el.stationName,
+                  stationId: data.stationName,
                   vehicleNo: el.vehicleNo,
                   vulnerable: el.isVulnerable,
                 })
