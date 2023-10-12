@@ -1,5 +1,5 @@
 
-# Take A Bus (TAB)
+# Take A Bus (TAB) 
 
 > **삼성청년SW아카데미(SSAFY)** <br/> **개발기간: 2023.07.04 ~ 2023.8.18**
 
