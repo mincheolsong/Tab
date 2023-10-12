@@ -1,9 +1,3 @@
-# Take A Bus (TAB)
-
-<div align="center">
-<img width="329" alt="image" src="https://i9d111.p.ssafy.io/TAB_logo.png?url">
- 
-</div>
 
 # Take A Bus (TAB)
 
